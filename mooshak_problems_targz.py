@@ -121,6 +121,8 @@ def build_archive(problems=None, timeouts=1, archive="problems.tgz"):
                 logging.warning(f"Ignoring problem {p}")
                 continue
 
+            logging.info(f"Adding problem {p} with name {pname}")
+
             xmlproblem = ET.SubElement(xmlproblems, "Problem")
             xmlproblem.set("xml:id", pname)
             xmlproblem.set("Name", pname)
@@ -131,6 +133,14 @@ def build_archive(problems=None, timeouts=1, archive="problems.tgz"):
             problemdir = Path(tmpdir) / pname
             problemdir.mkdir(mode=0o755)
             shutil.copy(descriptionfile, problemdir / "description.html")
+
+            if Path(p / "images").is_dir():
+                shutil.copytree(p / "images", problemdir / "images")
+            else:
+                Path(problemdir / "images").mkdir(mode=0o755)
+            xmlimages = ET.SubElement(xmlproblem, "Images")
+            xmlimages.set("xml:id", f"{pname}.images")
+
             testsdir = problemdir / "tests"
             testsdir.mkdir(mode=0o755)
 
