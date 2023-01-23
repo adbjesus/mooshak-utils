@@ -8,27 +8,9 @@
 # erase any existing problems in the contest, so you should only do
 # this before the contest starts.
 #
-# Copyright (c) 2022 Alexandre D. B. Jesus <https://adbjesus.com>
-# 
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation files
-# (the “Software”), to deal in the Software without restriction,
-# including without limitation the rights to use, copy, modify, merge,
-# publish, distribute, sublicense, and/or sell copies of the Software,
-# and to permit persons to whom the Software is furnished to do so,
-# subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software. 
+# Copyright (c) 2022-2023 Alexandre D. B. Jesus <https://adbjesus.com>
 #
-# THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-# BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-# ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+# SPDX-License-Identifier: MIT
 
 import os
 import sys
@@ -138,6 +120,10 @@ def build_archive(problems=None, timeouts=1, archive="problems.tgz"):
                 shutil.copytree(p / "images", problemdir / "images")
             else:
                 Path(problemdir / "images").mkdir(mode=0o755)
+
+            if Path(p / "correctors").is_dir():
+                shutil.copytree(p / "correctors", problemdir / "correctors")
+
             xmlimages = ET.SubElement(xmlproblem, "Images")
             xmlimages.set("xml:id", f"{pname}.images")
 
